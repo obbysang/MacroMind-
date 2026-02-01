@@ -31,15 +31,19 @@ export async function fetchClient<T>(endpoint: string, options: RequestInit = {}
   });
 
   if (!response.ok) {
-    if (response.status === 401) {
-        // Handle unauthorized access (e.g., redirect to login)
-        // We can't use router here easily, but we can clear token
+    const errorData = await response.json().catch(() => ({}));
+    
+    // Handle auth errors
+    if (response.status === 401 || (response.status === 403 && errorData.detail === "Could not validate credentials")) {
         if (typeof window !== 'undefined') {
-            // localStorage.removeItem('token');
-            // window.location.href = '/login';
+            localStorage.removeItem('token');
+            // Only redirect if we are not already on the login page to avoid loops
+            if (!window.location.pathname.includes('/login')) {
+                window.location.href = '/login';
+            }
         }
     }
-    const errorData = await response.json().catch(() => ({}));
+    
     throw new Error(errorData.detail || errorData.message || `API Error: ${response.status} ${response.statusText}`);
   }
 

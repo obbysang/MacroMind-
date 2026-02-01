@@ -5,6 +5,9 @@ class UserBase(BaseModel):
     email: EmailStr
     is_active: bool = True
     is_superuser: bool = False
+    full_name: Optional[str] = None
+    avatar: Optional[str] = None
+    grid_api_key: Optional[str] = None
     oauth_provider: Optional[str] = None
     oauth_id: Optional[str] = None
 

@@ -11,9 +11,11 @@ class ScrimBase(BaseModel):
 class ScrimCreate(ScrimBase):
     pass
 
-class ScrimUpdate(ScrimBase):
+class ScrimUpdate(BaseModel):
     team_name: Optional[str] = None
     date: Optional[datetime] = None
+    notes: Optional[str] = None
+    is_confirmed: Optional[bool] = None
 
 class Scrim(ScrimBase):
     id: int

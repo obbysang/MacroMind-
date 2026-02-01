@@ -10,5 +10,8 @@ class User(Base):
     hashed_password: Mapped[str] = mapped_column(String)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False)
+    full_name: Mapped[str | None] = mapped_column(String, nullable=True)
+    avatar: Mapped[str | None] = mapped_column(String, nullable=True)
+    grid_api_key: Mapped[str | None] = mapped_column(String, nullable=True)
     oauth_provider: Mapped[str | None] = mapped_column(String, nullable=True)
     oauth_id: Mapped[str | None] = mapped_column(String, nullable=True)

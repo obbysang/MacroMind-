@@ -61,3 +61,34 @@ async def read_user_me(
     Get current user.
     """
     return current_user
+
+@router.put("/me", response_model=UserSchema)
+async def update_user_me(
+    *,
+    db: AsyncSession = Depends(get_db),
+    user_in: UserUpdate,
+    current_user: User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Update own user.
+    """
+    user_data = user_in.model_dump(exclude_unset=True)
+    
+    # Prevent updating sensitive fields via this endpoint if needed
+    if "is_superuser" in user_data:
+        del user_data["is_superuser"]
+    if "is_active" in user_data:
+        del user_data["is_active"]
+        
+    if "password" in user_data and user_data["password"]:
+        password = user_data["password"]
+        del user_data["password"]
+        user_data["hashed_password"] = security.get_password_hash(password)
+    
+    for field, value in user_data.items():
+        setattr(current_user, field, value)
+            
+    db.add(current_user)
+    await db.commit()
+    await db.refresh(current_user)
+    return current_user

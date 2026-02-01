@@ -7,7 +7,10 @@ import { config } from "./api/config";
 interface User {
   id: string;
   email: string;
-  // Add other user fields as needed
+  full_name?: string;
+  avatar?: string;
+  grid_api_key?: string;
+  is_superuser?: boolean;
 }
 
 interface AuthContextType {

@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "../ui/modal";
-import { ScrimService } from "@/lib/api/services";
+import { ScrimService, Scrim } from "@/lib/api/services";
 
 interface ScheduleScrimModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  initialData?: Scrim | null;
 }
 
-export function ScheduleScrimModal({ isOpen, onClose, onSuccess }: ScheduleScrimModalProps) {
+export function ScheduleScrimModal({ isOpen, onClose, onSuccess, initialData }: ScheduleScrimModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -18,6 +19,39 @@ export function ScheduleScrimModal({ isOpen, onClose, onSuccess }: ScheduleScrim
     notes: "",
   });
 
+  useEffect(() => {
+    if (initialData) {
+      const d = new Date(initialData.date);
+      // Format date as YYYY-MM-DD (Local)
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const dateStr = `${year}-${month}-${day}`;
+      
+      // Format time as HH:MM (Local)
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const timeStr = `${hours}:${minutes}`;
+      
+      setFormData({
+        team_name: initialData.team_name,
+        date: dateStr,
+        time: timeStr,
+        notes: initialData.notes || "",
+      });
+    } else {
+        // Only reset if opening fresh (no initialData)
+        if (isOpen && !initialData) {
+            setFormData({
+                team_name: "",
+                date: "",
+                time: "",
+                notes: "",
+            });
+        }
+    }
+  }, [initialData, isOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -26,25 +60,33 @@ export function ScheduleScrimModal({ isOpen, onClose, onSuccess }: ScheduleScrim
     try {
       // Combine date and time
       const dateTime = new Date(`${formData.date}T${formData.time}`).toISOString();
-
-      await ScrimService.schedule({
+      const payload = {
         team_name: formData.team_name,
         date: dateTime,
         notes: formData.notes,
-      });
+      };
+
+      if (initialData) {
+        await ScrimService.update(initialData.id, payload);
+      } else {
+        await ScrimService.schedule(payload);
+      }
 
       onSuccess();
       onClose();
-      setFormData({ team_name: "", date: "", time: "", notes: "" });
+      // Reset form if it was a create action
+      if (!initialData) {
+        setFormData({ team_name: "", date: "", time: "", notes: "" });
+      }
     } catch (err: any) {
-      setError(err.message || "Failed to schedule scrim");
+      setError(err.message || "Failed to save scrim");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Schedule New Scrim">
+    <Modal isOpen={isOpen} onClose={onClose} title={initialData ? "Edit Scrim Block" : "Schedule New Scrim"}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {error && (
           <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-lg text-sm">
@@ -113,10 +155,10 @@ export function ScheduleScrimModal({ isOpen, onClose, onSuccess }: ScheduleScrim
             {loading ? (
               <>
                 <span className="material-symbols-outlined animate-spin text-sm">progress_activity</span>
-                Scheduling...
+                {initialData ? "Saving..." : "Scheduling..."}
               </>
             ) : (
-              "Schedule Scrim"
+              initialData ? "Save Changes" : "Schedule Scrim"
             )}
           </button>
         </div>
