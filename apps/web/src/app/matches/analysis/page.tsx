@@ -1,0 +1,383 @@
+"use client";
+
+import Link from "next/link";
+import { Sidebar } from "@/components/layout/Sidebar";
+
+export default function MatchAnalysis() {
+  const handleExport = () => {
+    alert("Export functionality coming soon!");
+  };
+
+  const handleAISummary = () => {
+    alert("AI Summary is being generated...");
+  };
+
+  return (
+    <div className="flex h-screen w-full bg-match-background-dark text-white font-display overflow-hidden antialiased">
+      <div className="flex h-full w-full">
+        <Sidebar />
+
+
+        {/* Main Content Wrapper */}
+        <main className="flex flex-col flex-1 min-w-0 h-full overflow-hidden bg-match-background-dark relative">
+          {/* TopNavBar */}
+          <header className="flex items-center justify-between whitespace-nowrap border-b border-white/5 bg-match-surface-darker px-8 py-3 shrink-0 z-20">
+            <div className="flex items-center gap-8">
+              {/* Custom Back Button/Context */}
+              <div className="flex items-center gap-4 text-white">
+                <Link href="/matches" className="size-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors cursor-pointer" aria-label="Back to matches">
+                  <span className="material-symbols-outlined text-xl">arrow_back</span>
+                </Link>
+                <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Match Analysis</h2>
+              </div>
+              {/* Search */}
+              <label className="hidden md:flex flex-col min-w-40 !h-10 max-w-64 group cursor-text">
+                <div className="flex w-full flex-1 items-stretch rounded-lg h-full bg-[#1e293b] group-focus-within:ring-1 ring-primary transition-all">
+                  <div className="text-[#9db0b9] flex items-center justify-center pl-3">
+                    <span className="material-symbols-outlined text-[20px]">search</span>
+                  </div>
+                  <input className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 bg-transparent placeholder:text-[#9db0b9]/50 px-3 text-sm font-normal leading-normal border-none focus:ring-0" placeholder="Search events..." aria-label="Search events" />
+                </div>
+              </label>
+            </div>
+            <div className="flex flex-1 justify-end gap-6 items-center">
+              <div className="flex gap-2">
+                <button className="flex items-center justify-center size-10 rounded-lg hover:bg-white/5 text-[#9db0b9] hover:text-white transition-colors relative cursor-pointer" aria-label="Notifications">
+                  <span className="material-symbols-outlined">notifications</span>
+                  <span className="absolute top-2 right-2 size-2 bg-primary rounded-full border border-background-dark"></span>
+                </button>
+                <button className="flex items-center justify-center size-10 rounded-lg hover:bg-white/5 text-[#9db0b9] hover:text-white transition-colors cursor-pointer" aria-label="Chat">
+                  <span className="material-symbols-outlined">chat_bubble</span>
+                </button>
+              </div>
+              <div className="h-8 w-px bg-white/10"></div>
+              <div className="flex items-center gap-3">
+                <div className="text-right hidden sm:block">
+                  <p className="text-sm font-bold text-white">Coach J.</p>
+                  <p className="text-xs text-[#9db0b9]">Head Analyst</p>
+                </div>
+                <div className="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-white/10 ring-2 ring-transparent hover:ring-primary/50 transition-all cursor-pointer" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxnv8aCwzULL2h-jZeo55d_HdyzbXndFxNx0DUY9RydCcK7PftEbLo3Sgxlt53G0nUhkCUvBr4-gS3PXCQFunWrWnPPuKh-9P5Ek1vLqmDObAm7VxtumIbCsyophV9OLvJUePyWc6DkBHD4Owb43ZDXqabfhwogSkg2bmFHLtHN-etJLCEBO0nWwd1PBziaIGObGh0Nw2tzAsygvGiXkjXe9RwxTE0f-3AbsX5e-BxBw_AHf82jNVpyE8zSNz5BMS8m_LeI4cj0p2o")' }}></div>
+              </div>
+            </div>
+          </header>
+
+          {/* Scrollable Page Content */}
+          <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide p-6 lg:px-10 pb-10">
+            <div className="max-w-[1600px] mx-auto flex flex-col gap-6">
+              {/* Breadcrumbs */}
+              <div className="flex flex-wrap gap-2 text-sm">
+                <Link className="text-[#9db0b9] hover:text-white transition-colors" href="/">Home</Link>
+                <span className="text-[#9db0b9] opacity-50">/</span>
+                <Link className="text-[#9db0b9] hover:text-white transition-colors" href="/scrims">Scrims</Link>
+                <span className="text-[#9db0b9] opacity-50">/</span>
+                <span className="text-primary font-medium">Match ID #8492</span>
+              </div>
+              {/* Page Heading */}
+              <div className="flex flex-wrap justify-between items-end gap-4 border-b border-white/5 pb-6">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary uppercase tracking-wider border border-primary/20">LCK Spring</span>
+                    <span className="text-[#9db0b9] text-sm">Patch 14.2</span>
+                  </div>
+                  <h1 className="text-white text-3xl md:text-5xl font-display font-bold tracking-tight">T1 <span className="text-[#9db0b9] text-2xl mx-2 font-normal">vs</span> GEN.G</h1>
+                  <p className="text-[#9db0b9] text-base">Game 3 • Victory • 32:14</p>
+                </div>
+                <div className="flex gap-3">
+                  <button 
+                    onClick={handleExport}
+                    className="flex cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#283339] hover:bg-[#34424a] text-white text-sm font-bold transition-all border border-white/5"
+                  >
+                    <span className="material-symbols-outlined mr-2 text-lg">download</span>
+                    Export Report
+                  </button>
+                  <button 
+                    onClick={handleAISummary}
+                    className="flex cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-[0_0_15px_rgba(19,164,236,0.3)] transition-all"
+                  >
+                    <span className="material-symbols-outlined mr-2 text-lg">smart_toy</span>
+                    AI Summary
+                  </button>
+                </div>
+              </div>
+              {/* Timeline Section */}
+              <div className="w-full bg-match-surface-dark rounded-xl border border-white/5 p-4 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent pointer-events-none"></div>
+                <div className="flex justify-between items-end mb-2 px-2">
+                  <h3 className="text-white font-bold text-sm flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary text-lg">timeline</span>
+                    Match Momentum & Macro Shifts
+                  </h3>
+                  <div className="flex gap-4 text-xs font-medium text-[#9db0b9]">
+                    <span className="flex items-center gap-1"><span className="size-2 rounded-full bg-primary"></span> Gold Lead</span>
+                    <span className="flex items-center gap-1"><span className="size-2 rounded-full bg-red-500"></span> Enemy Power Spike</span>
+                  </div>
+                </div>
+                {/* Timeline Chart Container */}
+                <div className="relative h-32 w-full mt-4">
+                  {/* Background Grid */}
+                  <div className="absolute inset-0 grid grid-cols-12 gap-0 pointer-events-none border-t border-b border-white/5">
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                    <div className="border-r border-white/5 h-full"></div>
+                  </div>
+                  {/* Graph SVG */}
+                  <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 100">
+                    <defs>
+                      <linearGradient id="goldGradient" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#13a4ec" stopOpacity="0.4"></stop>
+                        <stop offset="100%" stopColor="#13a4ec" stopOpacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                    <path d="M0,50 Q100,40 200,60 T400,30 T600,70 T800,20 T1000,50 V100 H0 Z" fill="url(#goldGradient)"></path>
+                    <path d="M0,50 Q100,40 200,60 T400,30 T600,70 T800,20 T1000,50" fill="none" stroke="#13a4ec" strokeWidth="2" vectorEffect="non-scaling-stroke"></path>
+                  </svg>
+                  {/* Interactive Markers */}
+                  <div className="absolute top-0 left-[38%] h-full w-px bg-white/20 z-10 flex flex-col items-center group/marker cursor-pointer">
+                    <div className="mt-2 p-1 bg-red-500 rounded-full border-2 border-surface-dark transform group-hover/marker:scale-150 transition-transform shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                    <div className="absolute top-10 bg-match-surface-darker px-2 py-1 rounded border border-white/10 text-[10px] text-white opacity-0 group-hover/marker:opacity-100 transition-opacity whitespace-nowrap z-20">
+                      Top Gank (Death)
+                    </div>
+                  </div>
+                  <div className="absolute top-0 left-[62%] h-full w-px bg-white/20 z-10 flex flex-col items-center group/marker cursor-pointer">
+                    <div className="mt-8 p-1 bg-primary rounded-full border-2 border-surface-dark transform group-hover/marker:scale-150 transition-transform shadow-[0_0_10px_rgba(19,164,236,0.5)]"></div>
+                    <div className="absolute top-2 bg-match-surface-darker px-2 py-1 rounded border border-white/10 text-[10px] text-white opacity-0 group-hover/marker:opacity-100 transition-opacity whitespace-nowrap z-20">
+                      Baron Secure
+                    </div>
+                  </div>
+                  {/* Scrubber */}
+                  <div className="absolute top-0 left-[38%] h-full w-0.5 bg-white z-20 shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+                    <div className="absolute -top-1 -translate-x-1/2 bg-white text-match-surface-darker text-[10px] font-bold px-1 rounded-sm">12:45</div>
+                    <div className="absolute bottom-0 -translate-x-1/2 translate-y-1/2 size-3 bg-white rounded-full border-2 border-primary"></div>
+                  </div>
+                </div>
+                {/* Time Axis Labels */}
+                <div className="flex justify-between text-[10px] text-[#9db0b9]/60 mt-2 font-mono px-1">
+                  <span>00:00</span>
+                  <span>05:00</span>
+                  <span>10:00</span>
+                  <span>15:00</span>
+                  <span>20:00</span>
+                  <span>25:00</span>
+                  <span>30:00</span>
+                  <span>35:00</span>
+                </div>
+              </div>
+              {/* Split View Content */}
+              <div className="flex flex-col lg:flex-row gap-6 h-full min-h-[500px]">
+                {/* Left Col: Critical Incidents */}
+                <div className="w-full lg:w-1/3 flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white text-lg font-bold">Critical Incidents</h3>
+                    <button className="text-[#9db0b9] text-xs hover:text-primary flex items-center gap-1 cursor-pointer">
+                      Filter <span className="material-symbols-outlined text-sm">filter_list</span>
+                    </button>
+                  </div>
+                  <div className="flex flex-col gap-3 overflow-y-auto pr-2 max-h-[600px]">
+                    {/* Card 1 (Active) */}
+                    <div className="p-4 rounded-lg bg-match-surface-dark border border-primary relative cursor-pointer group hover:bg-[#253240] transition-all shadow-[0_0_20px_rgba(19,164,236,0.1)]">
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
+                      <div className="flex justify-between items-start mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-primary font-mono text-sm font-bold">12:45</span>
+                          <span className="px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase">High Severity</span>
+                        </div>
+                        <span className="material-symbols-outlined text-[#9db0b9]">chevron_right</span>
+                      </div>
+                      <h4 className="text-white font-bold mb-1 group-hover:text-primary transition-colors">Top Lane Gank & Death</h4>
+                      <p className="text-[#9db0b9] text-sm line-clamp-2">Zeus (Aatrox) caught overextended without vision. Resulted in Rift Herald loss.</p>
+                      <div className="flex gap-2 mt-3">
+                        <span className="text-xs text-[#9db0b9] bg-white/5 px-2 py-1 rounded flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px] text-red-400">skull</span> Isolated Death
+                        </span>
+                        <span className="text-xs text-[#9db0b9] bg-white/5 px-2 py-1 rounded flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px] text-orange-400">timer_off</span> Tempo Loss
+                        </span>
+                      </div>
+                    </div>
+                    {/* Card 2 */}
+                    <div className="p-4 rounded-lg bg-match-surface-dark border border-white/5 relative cursor-pointer group hover:border-white/20 hover:bg-[#253240] transition-all">
+                      <div className="flex justify-between items-start mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[#9db0b9] font-mono text-sm font-bold">18:20</span>
+                          <span className="px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 text-[10px] font-bold uppercase">Med Severity</span>
+                        </div>
+                      </div>
+                      <h4 className="text-white font-medium mb-1 group-hover:text-white transition-colors">Dragon Contest Failure</h4>
+                      <p className="text-[#9db0b9] text-sm line-clamp-2">Team positioning was split. Enemy secured hextech dragon soul point.</p>
+                      <div className="flex gap-2 mt-3">
+                        <span className="text-xs text-[#9db0b9] bg-white/5 px-2 py-1 rounded flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px]">flag</span> Objective Loss
+                        </span>
+                      </div>
+                    </div>
+                    {/* Card 3 */}
+                    <div className="p-4 rounded-lg bg-match-surface-dark border border-white/5 relative cursor-pointer group hover:border-white/20 hover:bg-[#253240] transition-all">
+                      <div className="flex justify-between items-start mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[#9db0b9] font-mono text-sm font-bold">24:10</span>
+                          <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold uppercase">Positive</span>
+                        </div>
+                      </div>
+                      <h4 className="text-white font-medium mb-1 group-hover:text-white transition-colors">Baron Bait & Turn</h4>
+                      <p className="text-[#9db0b9] text-sm line-clamp-2">Excellent vision control led to a pick on the enemy support.</p>
+                      <div className="flex gap-2 mt-3">
+                        <span className="text-xs text-[#9db0b9] bg-white/5 px-2 py-1 rounded flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px] text-primary">swords</span> Teamfight Win
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Right Col: AI Analysis */}
+                <div className="w-full lg:w-2/3 bg-match-surface-dark border border-white/5 rounded-xl p-6 flex flex-col gap-6 relative overflow-hidden">
+                  {/* Background accent */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                  <div className="flex justify-between items-start z-10">
+                    <div>
+                      <h3 className="text-primary text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-lg">psychology</span> AI Impact Analysis
+                      </h3>
+                      <h2 className="text-2xl text-white font-bold">Critical Tempo Loss at 12:45</h2>
+                    </div>
+                    <div className="flex gap-2">
+                      <button className="size-8 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center text-[#9db0b9] transition-colors cursor-pointer">
+                        <span className="material-symbols-outlined text-sm">share</span>
+                      </button>
+                      <button className="size-8 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center text-[#9db0b9] transition-colors cursor-pointer">
+                        <span className="material-symbols-outlined text-sm">fullscreen</span>
+                      </button>
+                    </div>
+                  </div>
+                  {/* Metrics Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 z-10">
+                    <div className="bg-match-surface-darker p-4 rounded-lg border border-white/5 flex flex-col gap-1">
+                      <span className="text-[#9db0b9] text-xs font-medium uppercase">Economic Impact</span>
+                      <div className="flex items-end gap-2">
+                        <span className="text-2xl font-display font-bold text-red-400">-1,200g</span>
+                        <span className="text-xs text-red-400/70 mb-1">Total Value</span>
+                      </div>
+                      <div className="w-full bg-white/5 h-1 rounded-full mt-2 overflow-hidden">
+                        <div className="bg-red-500 h-full w-[65%]"></div>
+                      </div>
+                    </div>
+                    <div className="bg-match-surface-darker p-4 rounded-lg border border-white/5 flex flex-col gap-1">
+                      <span className="text-[#9db0b9] text-xs font-medium uppercase">Win Probability</span>
+                      <div className="flex items-end gap-2">
+                        <span className="text-2xl font-display font-bold text-orange-400">-8.4%</span>
+                        <span className="text-xs text-orange-400/70 mb-1">Shift</span>
+                      </div>
+                      <div className="w-full bg-white/5 h-1 rounded-full mt-2 overflow-hidden">
+                        <div className="bg-orange-500 h-full w-[40%]"></div>
+                      </div>
+                    </div>
+                    <div className="bg-match-surface-darker p-4 rounded-lg border border-white/5 flex flex-col gap-1">
+                      <span className="text-[#9db0b9] text-xs font-medium uppercase">Tempo Status</span>
+                      <div className="flex items-end gap-2">
+                        <span className="text-2xl font-display font-bold text-white">Critical</span>
+                        <span className="text-xs text-[#9db0b9] mb-1">Loss</span>
+                      </div>
+                      <div className="flex gap-1 mt-3">
+                        <div className="h-1.5 w-full bg-red-500 rounded-full"></div>
+                        <div className="h-1.5 w-full bg-red-500 rounded-full"></div>
+                        <div className="h-1.5 w-full bg-red-500 rounded-full"></div>
+                        <div className="h-1.5 w-full bg-white/10 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Deep Dive Section */}
+                  <div className="flex flex-col md:flex-row gap-6 flex-1 z-10">
+                    {/* Text Analysis */}
+                    <div className="flex-1 flex flex-col gap-4">
+                      <div className="bg-primary/5 border border-primary/20 rounded-lg p-5 relative">
+                        <span className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 bg-match-surface-dark border border-primary p-1 rounded-full text-primary">
+                          <span className="material-symbols-outlined text-lg block">auto_awesome</span>
+                        </span>
+                        <p className="text-white leading-relaxed text-sm">
+                          <strong className="text-primary block mb-2">Strategic Insight:</strong>
+                          Player <span className="font-bold text-white bg-white/10 px-1 rounded">Zeus</span>&apos;s death at 12:45 ceded top-side river control. The failed dive by the jungler resulted in a significant loss of tempo, allowing GEN.G to secure the Rift Herald freely. 
+                          <br/><br/>
+                          This created a <span className="text-red-400">lane vacuum</span> in top lane for 45 seconds, resulting in a 2-wave crash and giving the enemy Aatrox a persistent gold lead for the next 8 minutes.
+                        </p>
+                      </div>
+                      <div className="mt-auto">
+                        <h4 className="text-white text-sm font-bold mb-3">Suggested Remediation</h4>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-3 p-2 rounded hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/5">
+                            <div className="size-8 rounded bg-primary/20 flex items-center justify-center text-primary">
+                              <span className="material-symbols-outlined text-lg">visibility</span>
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-white text-sm font-medium">Review Vision Timings</span>
+                              <span className="text-[#9db0b9] text-xs">Module: Vision Control Basics</span>
+                            </div>
+                            <span className="material-symbols-outlined text-[#9db0b9] ml-auto text-sm">open_in_new</span>
+                          </div>
+                          <div className="flex items-center gap-3 p-2 rounded hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/5">
+                            <div className="size-8 rounded bg-primary/20 flex items-center justify-center text-primary">
+                              <span className="material-symbols-outlined text-lg">anchor</span>
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-white text-sm font-medium">Wave Management Drills</span>
+                              <span className="text-[#9db0b9] text-xs">Module: Top Lane Fundamentals</span>
+                            </div>
+                            <span className="material-symbols-outlined text-[#9db0b9] ml-auto text-sm">open_in_new</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Radar Chart Visualization */}
+                    <div className="w-full md:w-[280px] flex flex-col items-center justify-center bg-match-surface-darker rounded-lg border border-white/5 p-4 relative">
+                      <h4 className="text-[#9db0b9] text-xs font-bold uppercase tracking-wider mb-4 absolute top-4 left-4">Role Performance</h4>
+                      {/* Simple SVG Radar Chart Construction */}
+                      <svg className="w-full max-w-[220px]" viewBox="0 0 200 200">
+                        {/* Grid (Pentagon) */}
+                        <g fill="none" stroke="#283339" strokeWidth="1">
+                          <polygon points="100,20 180,80 150,170 50,170 20,80"></polygon>
+                          <polygon points="100,40 160,85 137.5,152.5 62.5,152.5 40,85"></polygon>
+                          <polygon points="100,60 140,90 125,135 75,135 60,90"></polygon>
+                          <line x1="100" x2="100" y1="100" y2="20"></line>
+                          <line x1="100" x2="180" y1="100" y2="80"></line>
+                          <line x1="100" x2="150" y1="100" y2="170"></line>
+                          <line x1="100" x2="50" y1="100" y2="170"></line>
+                          <line x1="100" x2="20" y1="100" y2="80"></line>
+                        </g>
+                        {/* Data Shape (Actual) */}
+                        <polygon fill="rgba(19, 164, 236, 0.2)" points="100,35 150,85 130,140 70,150 45,90" stroke="#13a4ec" strokeWidth="2"></polygon>
+                        {/* Data Shape (Expected - Dotted) */}
+                        <polygon fill="none" points="100,20 165,80 140,160 60,160 35,80" stroke="#9db0b9" strokeDasharray="4 2" strokeWidth="1"></polygon>
+                        {/* Labels */}
+                        <text fill="#9db0b9" fontSize="8" textAnchor="middle" x="100" y="15">Aggression</text>
+                        <text fill="#9db0b9" fontSize="8" textAnchor="middle" x="190" y="80">Gold/Min</text>
+                        <text fill="#9db0b9" fontSize="8" textAnchor="middle" x="150" y="185">Vision</text>
+                        <text fill="#9db0b9" fontSize="8" textAnchor="middle" x="50" y="185">Survival</text>
+                        <text fill="#9db0b9" fontSize="8" textAnchor="middle" x="10" y="80">Damage</text>
+                      </svg>
+                      <div className="flex gap-4 mt-2">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-3 h-0.5 bg-primary"></div>
+                          <span className="text-[10px] text-white">Actual</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-3 h-0.5 bg-[#9db0b9] border-t border-dashed border-[#9db0b9]"></div>
+                          <span className="text-[10px] text-[#9db0b9]">Avg Top Laner</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

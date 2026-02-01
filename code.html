@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MacroMind Coach Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "primary-dark": "#0e7ab0",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111618", // Deep charcoal/black
+                        "surface-dark": "#1a2126",    // Slightly lighter for cards
+                        "surface-border": "#283339",  // Borders
+                        "success": "#0bda57",
+                        "warning": "#fa5f38",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "sans": ["Space Grotesk", "sans-serif"], // Enforce Space Grotesk everywhere
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111618; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #283339; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b4b54; 
+        }
+        
+        .radar-chart-bg {
+            fill: none;
+            stroke: #283339;
+            stroke-width: 1;
+        }
+        .radar-chart-optimal {
+            fill: rgba(255, 255, 255, 0.1);
+            stroke: #9db0b9;
+            stroke-width: 2;
+        }
+        .radar-chart-current {
+            fill: rgba(19, 164, 236, 0.2);
+            stroke: #13a4ec;
+            stroke-width: 2;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-display overflow-hidden antialiased">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="w-64 bg-[#111618] border-r border-surface-border flex flex-col justify-between shrink-0">
+<div class="flex flex-col gap-6 p-4">
+<!-- Logo -->
+<div class="flex items-center gap-3 px-2">
+<div class="bg-primary/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary text-3xl">smart_toy</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-lg font-bold leading-none tracking-tight">MacroMind</h1>
+<p class="text-[#9db0b9] text-xs font-normal">Esports AI Coach</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#283339]/50 border border-[#283339] group transition-colors" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-white text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#9db0b9] hover:bg-[#283339]/30 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[#9db0b9] group-hover:text-white">history</span>
+<span class="text-sm font-medium">Match History</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#9db0b9] hover:bg-[#283339]/30 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[#9db0b9] group-hover:text-white">person_search</span>
+<span class="text-sm font-medium">Player Analysis</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#9db0b9] hover:bg-[#283339]/30 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[#9db0b9] group-hover:text-white">swords</span>
+<span class="text-sm font-medium">Scrim Tool</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#9db0b9] hover:bg-[#283339]/30 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[#9db0b9] group-hover:text-white">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<!-- User/Footer -->
+<div class="p-4 border-t border-surface-border">
+<div class="flex items-center gap-3 mb-4">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-10 w-10 border border-surface-border" data-alt="Profile picture of the head coach" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBZ10QVHIQQcI7awY5-99tzEuDNBlNeG0YmyQzBqsj4x3gYRN9RrWVUEM_IWQPYtOGKgIR9Oep1pQzQHjREp8U1JfewDc4dwIPMOzK358aFLYxjTNdJKHNnBUo3XnH1AnIw7NWCvY3eQkUE3ng6F3nRHnmBZawyOl2A1IcON55uTd8N6w321xjQyyJQ_4PTM08Nb3otk2nKx6wX-AaP0rbXO1GtV97xLBwD93ob2QElN1iYrPJCKCElT9H1oIVKfUX05e8SfZxFIE_c");'></div>
+<div class="flex flex-col min-w-0">
+<p class="text-white text-sm font-medium truncate">Coach J. Smith</p>
+<p class="text-[#9db0b9] text-xs truncate">Head Coach • Cloud9</p>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 h-9 rounded-lg border border-surface-border hover:bg-[#283339] text-[#9db0b9] hover:text-white text-xs font-bold transition-colors">
+<span class="material-symbols-outlined text-base">logout</span>
+                    Log Out
+                </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Header Area -->
+<header class="w-full bg-[#111618]/95 backdrop-blur z-10 border-b border-surface-border px-8 py-5 shrink-0">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 text-sm">
+<span class="text-[#9db0b9]">Dashboard</span>
+<span class="text-[#556975] material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-white font-medium">Overview</span>
+</div>
+<h2 class="text-3xl font-bold tracking-tight text-white mt-1">Coach Command Center</h2>
+<p class="text-[#9db0b9] text-sm mt-1">Real-time analysis of team micro-actions and macro outcomes.</p>
+</div>
+<div class="flex gap-3 items-center">
+<button class="flex items-center justify-center h-10 px-4 rounded-lg bg-[#283339] hover:bg-[#344148] text-white text-sm font-bold border border-[#3b4b54] transition-colors">
+<span class="material-symbols-outlined mr-2 text-lg">calendar_today</span>
+                            Schedule Scrim
+                        </button>
+<button class="flex items-center justify-center h-10 px-4 rounded-lg bg-primary hover:bg-primary-dark text-white text-sm font-bold shadow-[0_0_15px_rgba(19,164,236,0.3)] transition-all">
+<span class="material-symbols-outlined mr-2 text-lg">upload_file</span>
+                            Upload Replay
+                        </button>
+</div>
+</div>
+<!-- Context Filters -->
+<div class="flex gap-3 mt-6">
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-lg bg-[#283339] border border-[#3b4b54] pl-3 pr-2 hover:border-primary/50 transition-colors">
+<span class="text-white text-xs font-medium">Last 5 Matches</span>
+<span class="material-symbols-outlined text-[#9db0b9] text-base">arrow_drop_down</span>
+</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-lg bg-[#283339] border border-[#3b4b54] pl-3 pr-2 hover:border-primary/50 transition-colors">
+<span class="text-white text-xs font-medium">Patch 14.1</span>
+<span class="material-symbols-outlined text-[#9db0b9] text-base">arrow_drop_down</span>
+</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-lg bg-[#283339] border border-[#3b4b54] pl-3 pr-2 hover:border-primary/50 transition-colors">
+<span class="text-white text-xs font-medium">vs Team Liquid</span>
+<span class="material-symbols-outlined text-[#9db0b9] text-base">close</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8 pt-6">
+<div class="flex flex-col gap-6 max-w-[1400px] mx-auto">
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-white">emoji_events</span>
+</div>
+<div class="flex justify-between items-start mb-2">
+<p class="text-[#9db0b9] text-sm font-medium">Win Rate (Last 20)</p>
+</div>
+<div class="flex items-baseline gap-3">
+<h3 class="text-3xl font-bold text-white">68%</h3>
+<span class="text-base text-[#9db0b9] font-normal">(17-8)</span>
+</div>
+<div class="flex items-center mt-3 gap-1 text-success bg-success/10 w-fit px-2 py-1 rounded text-xs font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                +5.0% vs Last Split
+                            </div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-dark border border-primary/30 rounded-xl p-5 relative overflow-hidden shadow-[0_0_20px_rgba(19,164,236,0.05)]">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-primary">hub</span>
+</div>
+<div class="flex justify-between items-start mb-2">
+<p class="text-[#9db0b9] text-sm font-medium">Macro Efficiency Score</p>
+<span class="flex h-2 w-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#13a4ec]"></span>
+</div>
+<div class="flex items-baseline gap-3">
+<h3 class="text-3xl font-bold text-white">78.4%</h3>
+</div>
+<div class="flex items-center mt-3 gap-1 text-primary bg-primary/10 w-fit px-2 py-1 rounded text-xs font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                +2.4% (Trending Up)
+                            </div>
+<!-- Progress bar visual -->
+<div class="w-full bg-[#283339] h-1.5 rounded-full mt-4 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 78.4%"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-white">flag</span>
+</div>
+<div class="flex justify-between items-start mb-2">
+<p class="text-[#9db0b9] text-sm font-medium">Objective Control Rate</p>
+</div>
+<div class="flex items-baseline gap-3">
+<h3 class="text-3xl font-bold text-white">62%</h3>
+</div>
+<div class="flex items-center mt-3 gap-1 text-warning bg-warning/10 w-fit px-2 py-1 rounded text-xs font-bold">
+<span class="material-symbols-outlined text-sm">trending_down</span>
+                                -1.2% Drop in Herald Pri
+                            </div>
+</div>
+</div>
+<!-- Main Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full min-h-[500px]">
+<!-- Left Column: Causal Insight Feed (2/3 width) -->
+<div class="lg:col-span-2 flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div class="flex gap-2 items-center">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<h3 class="text-xl font-bold text-white">AI Causal Insights</h3>
+</div>
+<button class="text-xs text-primary font-bold hover:underline">View All Analysis</button>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-xl flex flex-col overflow-hidden">
+<!-- Feed Header -->
+<div class="px-5 py-3 bg-[#1a2126] border-b border-surface-border flex text-xs font-medium text-[#9db0b9] uppercase tracking-wider">
+<div class="w-20">Time</div>
+<div class="flex-1">Event &amp; Analysis</div>
+<div class="w-32 text-right">Macro Impact</div>
+<div class="w-10"></div>
+</div>
+<!-- Feed Items -->
+<div class="divide-y divide-surface-border">
+<!-- Item 1: Negative -->
+<div class="px-5 py-4 hover:bg-[#283339]/20 transition-colors group flex items-start gap-4">
+<div class="w-20 pt-1">
+<span class="text-white font-mono text-sm">14:32</span>
+<div class="text-[10px] text-[#9db0b9] mt-0.5">Game 3</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#283339] text-[#9db0b9] text-[10px] px-1.5 py-0.5 rounded border border-[#3b4b54]">Jungle</span>
+<span class="text-white font-bold text-sm">Overextension Top Lane</span>
+</div>
+<p class="text-[#9db0b9] text-sm leading-snug">
+                                                Jungler showed on vision top side while Dragon spawned. Enemy team immediately started objective.
+                                            </p>
+</div>
+<div class="w-32 text-right pt-1">
+<span class="text-warning font-bold text-sm">-15% Pressure</span>
+<div class="text-[10px] text-[#9db0b9]">Map Control</div>
+</div>
+<div class="w-10 flex justify-end items-center">
+<button class="text-[#9db0b9] hover:text-white p-1 rounded hover:bg-[#283339]">
+<span class="material-symbols-outlined text-xl">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Positive -->
+<div class="px-5 py-4 hover:bg-[#283339]/20 transition-colors group flex items-start gap-4">
+<div class="w-20 pt-1">
+<span class="text-white font-mono text-sm">08:15</span>
+<div class="text-[10px] text-[#9db0b9] mt-0.5">Game 3</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#283339] text-[#9db0b9] text-[10px] px-1.5 py-0.5 rounded border border-[#3b4b54]">Support</span>
+<span class="text-white font-bold text-sm">Perfect Roam Timer</span>
+</div>
+<p class="text-[#9db0b9] text-sm leading-snug">
+                                                Support roam aligned with Mid wave crash. Secured first blood on enemy Mid laner.
+                                            </p>
+</div>
+<div class="w-32 text-right pt-1">
+<span class="text-success font-bold text-sm">+12% Tempo</span>
+<div class="text-[10px] text-[#9db0b9]">Mid Priority</div>
+</div>
+<div class="w-10 flex justify-end items-center">
+<button class="text-[#9db0b9] hover:text-white p-1 rounded hover:bg-[#283339]">
+<span class="material-symbols-outlined text-xl">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Item 3: Neutral/Info -->
+<div class="px-5 py-4 hover:bg-[#283339]/20 transition-colors group flex items-start gap-4">
+<div class="w-20 pt-1">
+<span class="text-white font-mono text-sm">22:05</span>
+<div class="text-[10px] text-[#9db0b9] mt-0.5">Game 2</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#283339] text-[#9db0b9] text-[10px] px-1.5 py-0.5 rounded border border-[#3b4b54]">Team</span>
+<span class="text-white font-bold text-sm">Baron Setup Efficiency</span>
+</div>
+<p class="text-[#9db0b9] text-sm leading-snug">
+                                                Vision clearing speed around Baron pit was 12s (League Avg: 15s). Good prep.
+                                            </p>
+</div>
+<div class="w-32 text-right pt-1">
+<span class="text-white font-bold text-sm">Optimal</span>
+<div class="text-[10px] text-[#9db0b9]">Vision Score</div>
+</div>
+<div class="w-10 flex justify-end items-center">
+<button class="text-[#9db0b9] hover:text-white p-1 rounded hover:bg-[#283339]">
+<span class="material-symbols-outlined text-xl">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Item 4: Negative -->
+<div class="px-5 py-4 hover:bg-[#283339]/20 transition-colors group flex items-start gap-4">
+<div class="w-20 pt-1">
+<span class="text-white font-mono text-sm">31:40</span>
+<div class="text-[10px] text-[#9db0b9] mt-0.5">Game 1</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#283339] text-[#9db0b9] text-[10px] px-1.5 py-0.5 rounded border border-[#3b4b54]">ADC</span>
+<span class="text-white font-bold text-sm">Recall Timing Sync</span>
+</div>
+<p class="text-[#9db0b9] text-sm leading-snug">
+                                                ADC recalled 8s later than team, causing desync for Dragon fight setup.
+                                            </p>
+</div>
+<div class="w-32 text-right pt-1">
+<span class="text-warning font-bold text-sm">High Risk</span>
+<div class="text-[10px] text-[#9db0b9]">Teamfight</div>
+</div>
+<div class="w-10 flex justify-end items-center">
+<button class="text-[#9db0b9] hover:text-white p-1 rounded hover:bg-[#283339]">
+<span class="material-symbols-outlined text-xl">play_circle</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Strategy Comparison Widget (1/3 width) -->
+<div class="flex flex-col gap-4">
+<h3 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                                Strategy Comparison
+                            </h3>
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6 flex flex-col gap-6 h-full">
+<div class="flex justify-between items-center text-xs mb-2">
+<div class="flex items-center gap-2">
+<div class="w-3 h-0.5 bg-primary"></div>
+<span class="text-white">Current</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-0.5 bg-[#9db0b9]"></div>
+<span class="text-[#9db0b9]">Optimal Baseline</span>
+</div>
+</div>
+<!-- Simulated Radar Chart using SVG -->
+<div class="relative w-full aspect-square max-w-[280px] mx-auto">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<!-- Grid Background -->
+<polygon class="radar-chart-bg" opacity="0.2" points="50,10 90,35 90,75 50,90 10,75 10,35"></polygon>
+<polygon class="radar-chart-bg" opacity="0.2" points="50,25 75,40 75,65 50,75 25,65 25,40"></polygon>
+<line stroke="#283339" x1="50" x2="50" y1="50" y2="10"></line>
+<line stroke="#283339" x1="50" x2="90" y1="50" y2="35"></line>
+<line stroke="#283339" x1="50" x2="90" y1="50" y2="75"></line>
+<line stroke="#283339" x1="50" x2="50" y1="50" y2="90"></line>
+<line stroke="#283339" x1="50" x2="10" y1="50" y2="75"></line>
+<line stroke="#283339" x1="50" x2="10" y1="50" y2="35"></line>
+<!-- Optimal Shape (Grey) -->
+<polygon class="radar-chart-optimal" points="50,15 85,38 85,72 50,85 15,72 15,38"></polygon>
+<!-- Current Shape (Blue) -->
+<!-- Vision high, Aggression mid, Eco high -->
+<polygon class="radar-chart-current" points="50,20 88,36 65,65 50,70 30,65 20,45"></polygon>
+<!-- Points for Current -->
+<circle cx="50" cy="20" fill="#13a4ec" r="1.5"></circle>
+<circle cx="88" cy="36" fill="#13a4ec" r="1.5"></circle>
+<circle cx="65" cy="65" fill="#13a4ec" r="1.5"></circle>
+<circle cx="50" cy="70" fill="#13a4ec" r="1.5"></circle>
+<circle cx="30" cy="65" fill="#13a4ec" r="1.5"></circle>
+<circle cx="20" cy="45" fill="#13a4ec" r="1.5"></circle>
+<!-- Labels -->
+<text fill="#9db0b9" font-size="4" text-anchor="middle" x="50" y="7">Vision</text>
+<text fill="#9db0b9" font-size="4" text-anchor="start" x="94" y="35">Mechanics</text>
+<text fill="#9db0b9" font-size="4" text-anchor="start" x="94" y="78">Economy</text>
+<text fill="#9db0b9" font-size="4" text-anchor="middle" x="50" y="96">Objective</text>
+<text fill="#9db0b9" font-size="4" text-anchor="end" x="6" y="78">Aggression</text>
+<text fill="#9db0b9" font-size="4" text-anchor="end" x="6" y="35">Rotations</text>
+</svg>
+</div>
+<!-- Detailed Breakdown -->
+<div class="flex flex-col gap-3 mt-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-[#9db0b9]">Vision Control</span>
+<span class="text-white font-mono">92/100</span>
+</div>
+<div class="w-full bg-[#283339] h-1 rounded-full">
+<div class="bg-primary h-full rounded-full" style="width: 92%"></div>
+</div>
+<div class="flex justify-between items-center text-sm mt-1">
+<span class="text-[#9db0b9]">Economy Efficiency</span>
+<span class="text-white font-mono">65/100</span>
+</div>
+<div class="w-full bg-[#283339] h-1 rounded-full">
+<div class="bg-warning h-full rounded-full" style="width: 65%"></div>
+</div>
+<p class="text-xs text-[#9db0b9] mt-2 italic">
+                                        *Team is underperforming in economy generation vs baseline.
+                                    </p>
+</div>
+</div>
+</div>
+</div> <!-- End Grid -->
+</div>
+</div>
+</main>
+</div>
+</body></html>
